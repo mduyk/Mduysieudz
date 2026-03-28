@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>Shop Proxy mduyk~</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{margin:0;font-family:Arial;background:#020617;color:white;}
+.auth{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;background:#0008;}
+.auth-box{background:#1e293b;padding:25px;border-radius:15px;width:320px;text-align:center;}
+input,button{width:100%;padding:10px;margin:6px 0;border:none;border-radius:10px;}
+button{background:#22c55e;color:white;cursor:pointer;}
+#shop{display:none;}
+.container{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;padding:15px;}
+.box{background:#1e293b;padding:15px;border-radius:15px;text-align:center;}
+.price{color:#22c55e;}
+.topup{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:10px;}
+.topup button{background:#3b82f6;}
+</style>
+</head>
+
+<body>
+
+<!-- AUTH -->
+<div class="auth" id="auth">
+<div class="auth-box">
+
+<h3>Đăng ký</h3>
+<input id="regUser" placeholder="Tài khoản">
+<input id="regPass" type="password" placeholder="Mật khẩu">
+<button onclick="register()">Đăng ký</button>
+
+<h3>Đăng nhập</h3>
+<input id="logUser" placeholder="Tài khoản">
+<input id="logPass" type="password" placeholder="Mật khẩu">
+<button onclick="login()">Đăng nhập</button>
+
+</div>
+</div>
+
+<!-- SHOP -->
+<div id="shop">
+
+<h2 style="text-align:center">🛒 Shop Proxy mduyk~</h2>
+
+<h3 style="text-align:center">
+💰 Số dư: <span id="money">0</span>đ
+</h3>
+
+<div style="text-align:center;margin:15px">
+<input id="code" placeholder="Nhập mã nạp">
+<button onclick="nap()">Nạp code</button>
+</div>
+
+<div class="topup">
+<button onclick="goZalo(50000)">+50K</button>
+<button onclick="goZalo(100000)">+100K</button>
+<button onclick="goZalo(200000)">+200K</button>
+<button onclick="goZalo(500000)">+500K</button>
+</div>
+
+<div class="container">
+
+<div class="box">
+<h3>Proxy 2 Tuần</h3>
+<p class="price">80.000đ</p>
+<button onclick="buy('Proxy 2 Tuần',80000)">Mua</button>
+</div>
+
+<div class="box">
+<h3>Proxy Tháng</h3>
+<p class="price">150.000đ</p>
+<button onclick="buy('Proxy Tháng',150000)">Mua</button>
+</div>
+
+<div class="box">
+<h3>Proxy 2 Tháng</h3>
+<p class="price">200.000đ</p>
+<button onclick="buy('Proxy 2 Tháng',200000)">Mua</button>
+</div>
+
+<div class="box">
+<h3>Proxy 3 Tháng</h3>
+<p class="price">250.000đ</p>
+<button onclick="buy('Proxy 3 Tháng',250000)">Mua</button>
+</div>
+
+<div class="box">
+<h3>Proxy Vĩnh viễn</h3>
+<p class="price">600.000đ</p>
+<button onclick="buy('Proxy Vĩnh viễn',600000)">Mua</button>
+</div>
+
+</div>
+</div>
+
+<script>
+const SECRET="mduyk";
+
+// ===== FIX MONEY =====
+function getMoney(){
+let u=localStorage.getItem("user");
+let m=localStorage.getItem("money_"+u);
+if(!m) return 0;
+m=Number(m);
+if(isNaN(m)) return 0;
+return m;
+}
+
+function setMoney(x){
+let u=localStorage.getItem("user");
+localStorage.setItem("money_"+u, Number(x));
+}
+
+function update(){
+document.getElementById("money").innerText = getMoney();
+}
+
+// ===== AUTH =====
+function register(){
+let u=document.getElementById("regUser").value;
+let p=document.getElementById("regPass").value;
+
+localStorage.setItem("user",u);
+localStorage.setItem("pass",p);
+localStorage.setItem("money_"+u,"0");
+
+alert("Đăng ký thành công!");
+}
+
+function login(){
+let u=document.getElementById("logUser").value;
+let p=document.getElementById("logPass").value;
+
+if(p==localStorage.getItem("pass") && u==localStorage.getItem("user")){
+document.getElementById("auth").style.display="none";
+document.getElementById("shop").style.display="block";
+update();
+}else alert("Sai tài khoản!");
+}
+
+// ===== ZALO =====
+function goZalo(amount){
+localStorage.setItem("topup_amount",amount);
+window.location.href="https://zalo.me/0328033706";
+}
+
+// ===== CODE (10 CODE / MỆNH GIÁ) =====
+let codes={
+"NAP50-A1B2C3D4":50000,
+"NAP50-E5F6G7H8":50000,
+"NAP50-I9J1K2L3":50000,
+"NAP50-M4N5O6P7":50000,
+"NAP50-Q8R9S1T2":50000,
+"NAP50-U3V4W5X6":50000,
+"NAP50-Y7Z8A9B1":50000,
+"NAP50-C2D3E4F5":50000,
+"NAP50-G6H7I8J9":50000,
+"NAP50-K1L2M3N4":50000,
+
+"NAP100-A1B2C3D5":100000,
+"NAP100-E5F6G7H9":100000,
+"NAP100-I9J1K2L4":100000,
+"NAP100-M4N5O6P8":100000,
+"NAP100-Q8R9S1T3":100000,
+"NAP100-U3V4W5X7":100000,
+"NAP100-Y7Z8A9B2":100000,
+"NAP100-C2D3E4F6":100000,
+"NAP100-G6H7I8J1":100000,
+"NAP100-K1L2M3N5":100000,
+
+"NAP200-A1B2C3D6":200000,
+"NAP200-E5F6G7H1":200000,
+"NAP200-I9J1K2L7":200000,
+"NAP200-M4N5O6P1":200000,
+"NAP200-Q8R9S1T4":200000,
+"NAP200-U3V4W5X8":200000,
+"NAP200-Y7Z8A9B3":200000,
+"NAP200-C2D3E4F7":200000,
+"NAP200-G6H7I8J2":200000,
+"NAP200-K1L2M3N6":200000,
+
+"NAP500-A1B2C3D7":500000,
+"NAP500-E5F6G7H2":500000,
+"NAP500-I9J1K2L8":500000,
+"NAP500-M4N5O6P2":500000,
+"NAP500-Q8R9S1T5":500000,
+"NAP500-U3V4W5X9":500000,
+"NAP500-Y7Z8A9B4":500000,
+"NAP500-C2D3E4F8":500000,
+"NAP500-G6H7I8J3":500000,
+"NAP500-K1L2M3N7":500000
+};
+
+let usedCodes=JSON.parse(localStorage.getItem("usedCodes")||"[]");
+
+// ===== NẠP =====
+function nap(){
+let c=document.getElementById("code").value.trim();
+
+if(usedCodes.includes(c)){
+alert("Code đã dùng!");
+return;
+}
+
+if(codes[c]){
+let m=getMoney()+codes[c];
+setMoney(m);
+
+usedCodes.push(c);
+localStorage.setItem("usedCodes",JSON.stringify(usedCodes));
+
+// history nạp
+let h=JSON.parse(localStorage.getItem("history")||"[]");
+h.push({
+type:"NẠP TIỀN",
+name:c,
+price:codes[c],
+time:new Date().toLocaleString("vi-VN")
+});
+localStorage.setItem("history",JSON.stringify(h));
+
+alert("Nạp thành công");
+update();
+}else{
+alert("Code sai!");
+}
+}
+
+// ===== BUY =====
+function buy(name,price){
+let m=getMoney();
+if(m<price) return alert("Không đủ tiền");
+
+setMoney(m-price);
+
+// history mua
+let h=JSON.parse(localStorage.getItem("history")||"[]");
+h.push({
+type:"MUA HÀNG",
+name:name,
+price:price,
+time:new Date().toLocaleString("vi-VN")
+});
+localStorage.setItem("history",JSON.stringify(h));
+
+alert("Mua thành công");
+update();
+}
+</script>
+
+</body>
+</html>
